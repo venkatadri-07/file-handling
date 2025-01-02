@@ -1,0 +1,68 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+public class FileHandler {
+
+    // Method to write text to a file
+    public static void writeToFile(String filename, String text) {
+        try {
+            // Using FileWriter to write text to a file
+            FileWriter writer = new FileWriter(filename);
+            writer.write(text);
+            writer.close();
+            System.out.println("Text written to the file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
+
+    // Method to read text from a file
+    public static void readFromFile(String filename) {
+        try {
+            // Reading all the contents of the file using Files.readAllLines
+            List<String> lines = Files.readAllLines(Paths.get(filename));
+            System.out.println("Contents of the file:");
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file: " + e.getMessage());
+        }
+    }
+
+    // Method to modify the content of a file
+    public static void modifyFile(String filename, String newText) {
+        try {
+            // Reading the file's content
+            List<String> lines = Files.readAllLines(Paths.get(filename));
+
+            // Adding new text to the file
+            lines.add(newText);
+
+            // Writing the modified content back to the file
+            Files.write(Paths.get(filename), lines);
+            System.out.println("File modified successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while modifying the file: " + e.getMessage());
+        }
+    }
+
+    // Main method to demonstrate file operations
+    public static void main(String[] args) {
+        // Specify the file name
+        String filename = "sampleFile.txt";
+
+        // Write some initial content to the file
+        writeToFile(filename, "This is the first line of the file.\n");
+
+        // Read the content from the file
+        readFromFile(filename);
+
+        // Modify the file by appending new text
+        modifyFile(filename, "This is the second line added to the file.\n");
+
+        // Read the content again after modification
+        readFromFile(filename);
+    }
+}
